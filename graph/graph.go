@@ -1,7 +1,6 @@
 package graph
 
 import (
-	"errors"
 	"fmt"
 	"sync"
 )
@@ -37,7 +36,7 @@ func (g *Graph) Contains(id int) bool {
 func (g *Graph) AddVertex(id int) error {
 	ok := g.Contains(id)
 	if ok {
-		return errors.New("Node already exists")
+		return fmt.Errorf("Node already exists")
 	}
 	lock.Lock()
 	defer lock.Unlock()
