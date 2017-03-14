@@ -51,7 +51,7 @@ func Test_Vertices(t *testing.T) {
 	assert.EqualValues(expected, actual, "ListVertices should get 3 node-ids")
 }
 
-func Test_neighbors(t *testing.T) {
+func Test_Edges(t *testing.T) {
 	assert := assert.New(t)
 
 	graph := NewGraph()
@@ -84,4 +84,36 @@ func Test_neighbors(t *testing.T) {
 	expected, err = graph.EdgeExists(3, 5)
 	assert.NotNil(err, "Edges should NOT exist between non existing nodes")
 	assert.Equal(expected, false, "Edges should NOT exist between non existing nodes")
+}
+
+func Test_Neighbors(t *testing.T) {
+	assert := assert.New(t)
+
+	graph := NewGraph()
+
+	graph.AddVertex(1)
+	graph.AddVertex(2)
+	graph.AddVertex(3)
+	graph.AddVertex(4)
+
+	graph.AddEdge(1, 2, true)
+	graph.AddEdge(1, 3, true)
+	// This will create edges from both 2->3 and 3->2
+	graph.AddEdge(2, 3, false)
+
+	//This should return two objects node.id=2 and node.id=3
+	neighbors, err := graph.GetNeighbors(1)
+
+	identifiers := make([]int, 0)
+	for _, neighbor := range neighbors {
+		identifiers = append(identifiers, neighbor.id)
+	}
+	sort.Ints(identifiers)
+
+	assert.Nil(err, "Should not throw error")
+	assert.Equal(identifiers, []int{2, 3}, "Neighbors of node1 should be node2 and node3")
+
+	_, err = graph.GetNeighbors(5)
+	assert.NotNil(err, "Non existent node should not throw error")
+
 }

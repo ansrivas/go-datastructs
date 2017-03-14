@@ -19,7 +19,7 @@ func newNode(id int) *GNode {
 	return node
 }
 
-func (g *Graph) GetNodeFromId(id int) (node *GNode, ok bool) {
+func (g *Graph) getNodeFromId(id int) (node *GNode, ok bool) {
 	lock.RLock()
 	defer lock.RUnlock()
 	node, ok = (*g)[id]
@@ -28,7 +28,7 @@ func (g *Graph) GetNodeFromId(id int) (node *GNode, ok bool) {
 
 //Contains checks if a node with given `id` exists in the graph
 func (g *Graph) Contains(id int) bool {
-	_, ok := g.GetNodeFromId(id)
+	_, ok := g.getNodeFromId(id)
 	return ok
 }
 
@@ -50,7 +50,7 @@ func (g *Graph) EdgeExists(src, target int) (bool, error) {
 		return false, fmt.Errorf("Either of nodes %d or %d does not exist, please add it first", src, target)
 	}
 
-	node, ok := g.GetNodeFromId(src)
+	node, ok := g.getNodeFromId(src)
 	if ok {
 		for _, nodes := range node.neighbors {
 			if target == nodes.id {
@@ -69,8 +69,8 @@ func (g *Graph) AddEdge(id1, id2 int, directed bool) error {
 		return fmt.Errorf("Either of nodes %d or %d does not exist, please add it first", id1, id2)
 	}
 
-	node1, _ := g.GetNodeFromId(id1)
-	node2, _ := g.GetNodeFromId(id2)
+	node1, _ := g.getNodeFromId(id1)
+	node2, _ := g.getNodeFromId(id2)
 
 	node1.neighbors = append(node1.neighbors, node2)
 	//undirected graph case
@@ -84,7 +84,7 @@ func (g *Graph) AddEdge(id1, id2 int, directed bool) error {
 func (g *Graph) ListVertices() []*GNode {
 	nodes := make([]*GNode, 0)
 	for k := range *g {
-		vertex, ok := g.GetNodeFromId(k)
+		vertex, ok := g.getNodeFromId(k)
 		if ok {
 			nodes = append(nodes, vertex)
 		}
@@ -96,10 +96,24 @@ func (g *Graph) ListVertices() []*GNode {
 func (g *Graph) ListVerticesID() []int {
 	nodes := make([]int, 0)
 	for k := range *g {
-		vertex, ok := g.GetNodeFromId(k)
+		vertex, ok := g.getNodeFromId(k)
 		if ok {
 			nodes = append(nodes, vertex.id)
 		}
 	}
 	return nodes
+}
+
+//GetNeighbors returns neighbors of a given node with identifier=id
+func (g *Graph) GetNeighbors(id int) ([]*GNode, error) {
+	node, ok := g.getNodeFromId(id)
+	if !ok {
+		return nil, fmt.Errorf("Node %d does not exist", id)
+	}
+
+	neighbors := make([]*GNode, 0)
+	for _, neighbor := range node.neighbors {
+		neighbors = append(neighbors, neighbor)
+	}
+	return neighbors, nil
 }
