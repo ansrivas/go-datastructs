@@ -3,7 +3,10 @@ package graph
 import (
 	"errors"
 	"fmt"
+	"sync"
 )
+
+var lock = sync.RWMutex{}
 
 //NewGraph creates a new graph
 func NewGraph() *Graph {
@@ -17,9 +20,16 @@ func newNode(id int) *GNode {
 	return node
 }
 
+func (g *Graph) GetNodeFromId(id int) (node *GNode, ok bool) {
+	lock.RLock()
+	defer lock.RUnlock()
+	node, ok = (*g)[id]
+	return
+}
+
 //Contains checks if a node with given `id` exists in the graph
 func (g *Graph) Contains(id int) bool {
-	_, ok := (*g)[id]
+	_, ok := g.GetNodeFromId(id)
 	return ok
 }
 
@@ -29,6 +39,8 @@ func (g *Graph) AddVertex(id int) error {
 	if ok {
 		return errors.New("Node already exists")
 	}
+	lock.Lock()
+	defer lock.Unlock()
 	(*g)[id] = newNode(id)
 	return nil
 }
@@ -39,9 +51,12 @@ func (g *Graph) EdgeExists(src, target int) (bool, error) {
 		return false, fmt.Errorf("Either of nodes %d or %d does not exist, please add it first", src, target)
 	}
 
-	for _, nodes := range (*g)[src].neighbors {
-		if target == nodes.id {
-			return true, nil
+	node, ok := g.GetNodeFromId(src)
+	if ok {
+		for _, nodes := range node.neighbors {
+			if target == nodes.id {
+				return true, nil
+			}
 		}
 	}
 	return false, nil
@@ -55,8 +70,8 @@ func (g *Graph) AddEdge(id1, id2 int, directed bool) error {
 		return fmt.Errorf("Either of nodes %d or %d does not exist, please add it first", id1, id2)
 	}
 
-	node1, _ := (*g)[id1]
-	node2, _ := (*g)[id2]
+	node1, _ := g.GetNodeFromId(id1)
+	node2, _ := g.GetNodeFromId(id2)
 
 	node1.neighbors = append(node1.neighbors, node2)
 	//undirected graph case
@@ -70,7 +85,10 @@ func (g *Graph) AddEdge(id1, id2 int, directed bool) error {
 func (g *Graph) ListVertices() []*GNode {
 	nodes := make([]*GNode, 0)
 	for k := range *g {
-		nodes = append(nodes, (*g)[k])
+		vertex, ok := g.GetNodeFromId(k)
+		if ok {
+			nodes = append(nodes, vertex)
+		}
 	}
 	return nodes
 }
@@ -79,7 +97,10 @@ func (g *Graph) ListVertices() []*GNode {
 func (g *Graph) ListVerticesID() []int {
 	nodes := make([]int, 0)
 	for k := range *g {
-		nodes = append(nodes, (*g)[k].id)
+		vertex, ok := g.GetNodeFromId(k)
+		if ok {
+			nodes = append(nodes, vertex.id)
+		}
 	}
 	return nodes
 }
