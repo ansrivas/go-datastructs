@@ -2,8 +2,6 @@ package graph
 
 import "fmt"
 
-
-
 //NewGQueue creates a new queue
 func NewGQueue() *GQueue {
 	queue := make(GQueue, 0)

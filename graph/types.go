@@ -11,3 +11,6 @@ type GNode struct {
 	id    int
 	edges []*GNode
 }
+
+//Graph is a map of nodes
+type Graph map[int]*GNode
