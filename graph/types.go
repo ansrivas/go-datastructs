@@ -8,8 +8,8 @@ type GStack []*GNode
 
 //GNode represent a node in a graph
 type GNode struct {
-	id    int
-	edges []*GNode
+	id        int
+	neighbors []*GNode
 }
 
 //Graph is a map of nodes

@@ -28,6 +28,9 @@ func Test_Vertices(t *testing.T) {
 	assert := assert.New(t)
 
 	graph := NewGraph()
+
+	assert.Equal(0, len(graph.ListVertices()), "Empty vertex list")
+
 	graph.AddVertex(1)
 	graph.AddVertex(2)
 	graph.AddVertex(3)
@@ -46,4 +49,39 @@ func Test_Vertices(t *testing.T) {
 	sort.Ints(expected)
 	actual = []int{1, 2, 3}
 	assert.EqualValues(expected, actual, "ListVertices should get 3 node-ids")
+}
+
+func Test_neighbors(t *testing.T) {
+	assert := assert.New(t)
+
+	graph := NewGraph()
+
+	graph.AddVertex(1)
+	graph.AddVertex(2)
+	graph.AddVertex(3)
+	graph.AddVertex(4)
+
+	graph.AddEdge(1, 2, true)
+	graph.AddEdge(2, 3, true)
+
+	//Add edge and use `false` to declare it non-directed edge
+	graph.AddEdge(3, 2, false)
+	expected, _ := graph.EdgeExists(2, 3)
+	assert.Equal(expected, true, "Edges should exist between 3,2")
+
+	//Test adding to non-existing vertex
+	err := graph.AddEdge(4, 6, true)
+	assert.NotNil(err, "Adding an edge to non-existing vertex should throw error")
+
+	expected, _ = graph.EdgeExists(1, 2)
+	assert.Equal(expected, true, "Edges should exist between 1,2")
+	expected, _ = graph.EdgeExists(2, 3)
+	assert.Equal(expected, true, "Edges should exist between 2,3")
+
+	expected, _ = graph.EdgeExists(3, 4)
+	assert.Equal(expected, false, "Edges should NOT exist between 3,4")
+
+	expected, err = graph.EdgeExists(3, 5)
+	assert.NotNil(err, "Edges should NOT exist between non existing nodes")
+	assert.Equal(expected, false, "Edges should NOT exist between non existing nodes")
 }
