@@ -5,7 +5,7 @@ import (
 	"sync"
 )
 
-var lock = sync.RWMutex{}
+var Lock = sync.RWMutex{}
 
 //NewGraph creates a new graph
 func NewGraph() *Graph {
@@ -20,9 +20,9 @@ func newNode(id int) *GNode {
 }
 
 func (g *Graph) getNodeFromId(id int) (node *GNode, ok bool) {
-	lock.RLock()
-	defer lock.RUnlock()
+	Lock.RLock()
 	node, ok = (*g)[id]
+	Lock.RUnlock()
 	return
 }
 
@@ -38,8 +38,8 @@ func (g *Graph) AddVertex(id int) error {
 	if ok {
 		return fmt.Errorf("Node already exists")
 	}
-	lock.Lock()
-	defer lock.Unlock()
+	Lock.Lock()
+	defer Lock.Unlock()
 	(*g)[id] = newNode(id)
 	return nil
 }
@@ -92,6 +92,7 @@ func (g *Graph) ListVertices() []*GNode {
 	return nodes
 }
 
+//TODO: Get ride of this function later
 //ListVerticesID gives a list of all the verticx-id (unique identifier of a node) in this graph
 func (g *Graph) ListVerticesID() []int {
 	nodes := make([]int, 0)
