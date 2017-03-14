@@ -1,24 +1,17 @@
 package graph
 
-import (
-	"fmt"
-	"sort"
-)
+import "sort"
 
 // func (g *Graph) topoLogicalSortUtil(id int, visited map[int]bool, topoSortedList *[]int) {
 func (g *Graph) topoLogicalSortUtil(id int, visited map[int]bool, stack *GStack) {
-	fmt.Println("Fetching node: ", id)
 	node, _ := g.getNodeFromId(id)
-	fmt.Println("Current status of visited list: ", visited)
 
 	_, ok := visited[id]
 	if ok {
-		fmt.Println("Node id was visited: ", id)
 		return
 	}
 
 	// Mark this visited
-
 	visited[id] = true
 
 	// If this is a leaf node, just add it to topoSortedList and return
