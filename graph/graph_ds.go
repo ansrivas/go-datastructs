@@ -1,6 +1,9 @@
 package graph
 
-import "sort"
+import (
+	"fmt"
+	"sort"
+)
 
 func (g *Graph) topoLogicalSortUtil(id int, visited map[int]bool, stack *GStack) {
 	node, _ := g.getNodeFromId(id)
@@ -48,4 +51,32 @@ func (g *Graph) TopologicalSort(sortInput ...bool) *GStack {
 		g.topoLogicalSortUtil(vertex, visited, stack)
 	}
 	return stack
+}
+
+func (g *Graph) BreadthFirstSearch(startNode int) ([]*GNode, error) {
+	visited := make(map[int]bool)
+	queue := NewGQueue()
+	bfs := make([]*GNode, 0)
+	node, ok := g.getNodeFromId(startNode)
+	if !ok {
+		return nil, fmt.Errorf("Start node could not be found: %d", startNode)
+	}
+
+	//Start with the first node i.e. startNode
+	queue.Enqueue(node)
+
+	for queue.Len() != 0 {
+		top, _ := queue.Dqueue()
+		visited[top.id] = true
+		bfs = append(bfs, top)
+		for _, neighbor := range top.neighbors {
+			_, ok := visited[neighbor.id]
+			if ok {
+				continue
+			}
+			visited[neighbor.id] = true
+			queue.Enqueue(neighbor)
+		}
+	}
+	return bfs, nil
 }
