@@ -2,7 +2,6 @@ package graph
 
 import "sort"
 
-// func (g *Graph) topoLogicalSortUtil(id int, visited map[int]bool, topoSortedList *[]int) {
 func (g *Graph) topoLogicalSortUtil(id int, visited map[int]bool, stack *GStack) {
 	node, _ := g.getNodeFromId(id)
 
