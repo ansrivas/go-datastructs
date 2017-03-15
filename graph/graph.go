@@ -119,11 +119,6 @@ func (g *Graph) GetNeighbors(id int) ([]*GNode, error) {
 	if !ok {
 		return nil, fmt.Errorf("Node %d does not exist", id)
 	}
-
-	// neighbors := make([]*GNode, 0)
-	// for _, neighbor := range node.neighbors {
-	// 	neighbors = append(neighbors, neighbor)
-	// }
 	return node.neighbors, nil
 }
 
