@@ -65,3 +65,31 @@ func Test_BreadthFirstSearch(t *testing.T) {
 	expectedList := []int{2, 0, 3, 1}
 	assert.Equal(expectedList, actualList, "Breadth first search")
 }
+
+func Test_DepthFirstSearch(t *testing.T) {
+
+	assert := assert.New(t)
+	graph := NewGraph()
+	for i := 0; i < 4; i++ {
+		graph.AddVertex(i)
+	}
+	graph.AddEdge(0, 1, true, 0)
+	graph.AddEdge(0, 2, true, 0)
+	graph.AddEdge(1, 2, true, 0)
+	graph.AddEdge(2, 0, true, 0)
+	graph.AddEdge(2, 3, true, 0)
+	graph.AddEdge(3, 3, true, 0)
+
+	// Non existing node
+	_, err := graph.DepthFirstSearch(6)
+	assert.NotNil(err, "Should throw error trying to DFS on non-exiting node")
+
+	nodes, _ := graph.DepthFirstSearch(2)
+	actualList := make([]int, 0)
+	for _, node := range nodes {
+		actualList = append(actualList, node.id)
+	}
+	expectedList := []int{2, 0, 1, 3}
+	assert.Equal(expectedList, actualList, "Depth first search")
+
+}

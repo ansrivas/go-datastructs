@@ -82,3 +82,30 @@ func (g *Graph) BreadthFirstSearch(startNode int) ([]*GNode, error) {
 	}
 	return bfs, nil
 }
+
+func (g *Graph) dfsUtil(node *GNode, visited map[int]bool, dfs *[]*GNode) {
+	_, ok := visited[node.id]
+	//If already visited, just return it
+	if ok {
+		return
+	}
+
+	visited[node.id] = true
+	*dfs = append(*dfs, node)
+
+	for _, neighbor := range node.neighbors {
+		g.dfsUtil(neighbor, visited, dfs)
+	}
+	return
+}
+
+func (g *Graph) DepthFirstSearch(startNode int) ([]*GNode, error) {
+	visited := make(map[int]bool)
+	dfs := make([]*GNode, 0)
+	node, ok := g.getNodeFromId(startNode)
+	if !ok {
+		return nil, fmt.Errorf("Start node could not be found: %d", startNode)
+	}
+	g.dfsUtil(node, visited, &dfs)
+	return dfs, nil
+}
