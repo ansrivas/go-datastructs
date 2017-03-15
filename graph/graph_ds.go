@@ -53,6 +53,8 @@ func (g *Graph) TopologicalSort(sortInput ...bool) *GStack {
 	return stack
 }
 
+//BreadthFirstSearch implements a BFS :)
+//startNode is a node where BFS starts first, in a disconnected graph all the nodes should be provided ideally
 func (g *Graph) BreadthFirstSearch(startNode int) ([]*GNode, error) {
 	visited := make(map[int]bool)
 	queue := NewGQueue()
