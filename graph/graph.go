@@ -15,8 +15,14 @@ func NewGraph() *Graph {
 
 //NewNode creates a new node in a given graph
 func newNode(id int) *GNode {
-	node := &GNode{id: id, neighbors: make([]*GNode, 0)}
+	node := &GNode{id: id, neighbors: make([]*GNode, 0), edges: make([]*Edge, 0)}
 	return node
+}
+
+//NewNode creates a new node in a given graph
+func newEdge(source, target *GNode, weight int) *Edge {
+	edge := &Edge{source: source, target: target, weight: weight}
+	return edge
 }
 
 func (g *Graph) getNodeFromId(id int) (node *GNode, ok bool) {
@@ -64,7 +70,7 @@ func (g *Graph) EdgeExists(src, target int) (bool, error) {
 
 //AddEdge creates an edge between two nodes represented by id1, id2.
 //`directed`=true creates a directed graph from id1->id2
-func (g *Graph) AddEdge(id1, id2 int, directed bool) error {
+func (g *Graph) AddEdge(id1, id2 int, directed bool, weight int) error {
 	if !g.Contains(id1) || !g.Contains(id2) {
 		return fmt.Errorf("Either of nodes %d or %d does not exist, please add it first", id1, id2)
 	}
@@ -73,9 +79,11 @@ func (g *Graph) AddEdge(id1, id2 int, directed bool) error {
 	node2, _ := g.getNodeFromId(id2)
 
 	node1.neighbors = append(node1.neighbors, node2)
+	node1.edges = append(node1.edges, newEdge(node1, node2, weight))
 	//undirected graph case
 	if !directed {
 		node2.neighbors = append(node2.neighbors, node1)
+		node2.edges = append(node2.edges, newEdge(node2, node1, weight))
 	}
 	return nil
 }
@@ -112,9 +120,17 @@ func (g *Graph) GetNeighbors(id int) ([]*GNode, error) {
 		return nil, fmt.Errorf("Node %d does not exist", id)
 	}
 
-	neighbors := make([]*GNode, 0)
-	for _, neighbor := range node.neighbors {
-		neighbors = append(neighbors, neighbor)
+	// neighbors := make([]*GNode, 0)
+	// for _, neighbor := range node.neighbors {
+	// 	neighbors = append(neighbors, neighbor)
+	// }
+	return node.neighbors, nil
+}
+
+func (g *Graph) GetEdges(id int) ([]*Edge, error) {
+	node, ok := g.getNodeFromId(id)
+	if !ok {
+		return nil, fmt.Errorf("Node %d does not exist", id)
 	}
-	return neighbors, nil
+	return node.edges, nil
 }

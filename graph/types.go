@@ -10,6 +10,14 @@ type GStack []*GNode
 type GNode struct {
 	id        int
 	neighbors []*GNode
+	edges     []*Edge
+}
+
+//Edge stores edge information in a node
+type Edge struct {
+	source *GNode
+	target *GNode
+	weight int
 }
 
 //Graph is a map of nodes

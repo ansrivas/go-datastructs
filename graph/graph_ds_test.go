@@ -13,14 +13,14 @@ func Test_TopologicalSort(t *testing.T) {
 	for i := 1; i < 9; i++ {
 		graph.AddVertex(i)
 	}
-	graph.AddEdge(1, 3, true)
-	graph.AddEdge(2, 3, true)
-	graph.AddEdge(3, 5, true)
-	graph.AddEdge(5, 8, true)
-	graph.AddEdge(5, 6, true)
-	graph.AddEdge(6, 7, true)
-	graph.AddEdge(2, 4, true)
-	graph.AddEdge(4, 6, true)
+	graph.AddEdge(1, 3, true, 0)
+	graph.AddEdge(2, 3, true, 0)
+	graph.AddEdge(3, 5, true, 0)
+	graph.AddEdge(5, 8, true, 0)
+	graph.AddEdge(5, 6, true, 0)
+	graph.AddEdge(6, 7, true, 0)
+	graph.AddEdge(2, 4, true, 0)
+	graph.AddEdge(4, 6, true, 0)
 
 	nodeList := graph.TopologicalSort(true)
 
@@ -44,12 +44,12 @@ func Test_BreadthFirstSearch(t *testing.T) {
 	for i := 0; i < 4; i++ {
 		graph.AddVertex(i)
 	}
-	graph.AddEdge(0, 1, true)
-	graph.AddEdge(0, 2, true)
-	graph.AddEdge(1, 2, true)
-	graph.AddEdge(2, 0, true)
-	graph.AddEdge(2, 3, true)
-	graph.AddEdge(3, 3, true)
+	graph.AddEdge(0, 1, true, 0)
+	graph.AddEdge(0, 2, true, 0)
+	graph.AddEdge(1, 2, true, 0)
+	graph.AddEdge(2, 0, true, 0)
+	graph.AddEdge(2, 3, true, 0)
+	graph.AddEdge(3, 3, true, 0)
 
 	// Non existing node
 	_, err := graph.BreadthFirstSearch(6)

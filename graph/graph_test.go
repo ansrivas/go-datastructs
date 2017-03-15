@@ -61,16 +61,28 @@ func Test_Edges(t *testing.T) {
 	graph.AddVertex(3)
 	graph.AddVertex(4)
 
-	graph.AddEdge(1, 2, true)
-	graph.AddEdge(2, 3, true)
+	graph.AddEdge(1, 2, true, 0)
+	graph.AddEdge(1, 3, true, 0)
+	graph.AddEdge(2, 3, true, 0)
+
+	_, err := graph.GetEdges(9)
+	assert.NotNil(err, "GetEdges should fail for non-existing nodes")
+	edges, _ := graph.GetEdges(1)
+	actualEdgeList := make([]int, 0)
+	for _, edge := range edges {
+		actualEdgeList = append(actualEdgeList, edge.target.id)
+	}
+	sort.Ints(actualEdgeList)
+	expectedEdgeList := []int{2, 3}
+	assert.Equal(expectedEdgeList, actualEdgeList, "GetEdges should return correct edge list")
 
 	//Add edge and use `false` to declare it non-directed edge
-	graph.AddEdge(3, 2, false)
+	graph.AddEdge(3, 2, false, 0)
 	expected, _ := graph.EdgeExists(2, 3)
 	assert.Equal(expected, true, "Edges should exist between 3,2")
 
 	//Test adding to non-existing vertex
-	err := graph.AddEdge(4, 6, true)
+	err = graph.AddEdge(4, 6, true, 0)
 	assert.NotNil(err, "Adding an edge to non-existing vertex should throw error")
 
 	expected, _ = graph.EdgeExists(1, 2)
@@ -96,10 +108,10 @@ func Test_Neighbors(t *testing.T) {
 	graph.AddVertex(3)
 	graph.AddVertex(4)
 
-	graph.AddEdge(1, 2, true)
-	graph.AddEdge(1, 3, true)
+	graph.AddEdge(1, 2, true, 0)
+	graph.AddEdge(1, 3, true, 0)
 	// This will create edges from both 2->3 and 3->2
-	graph.AddEdge(2, 3, false)
+	graph.AddEdge(2, 3, false, 0)
 
 	//This should return two objects node.id=2 and node.id=3
 	neighbors, err := graph.GetNeighbors(1)
