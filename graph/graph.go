@@ -38,13 +38,21 @@ func NewGraph() *Graph {
 
 //NewNode creates a new node in a given graph
 func newNode(id int) *GNode {
-	node := &GNode{id: id, neighbors: make([]*GNode, 0), edges: make([]*Edge, 0)}
+	node := &GNode{
+		id:        id,
+		neighbors: make([]*GNode, 0),
+		edges:     make([]*Edge, 0),
+	}
 	return node
 }
 
 //NewNode creates a new node in a given graph
 func newEdge(source, target *GNode, weight int) *Edge {
-	edge := &Edge{source: source, target: target, weight: weight}
+	edge := &Edge{
+		source: source,
+		target: target,
+		weight: weight,
+	}
 	return edge
 }
 
