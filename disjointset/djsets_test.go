@@ -1,4 +1,4 @@
-package disjointsets
+package disjointset
 
 import (
 	"testing"

@@ -1,4 +1,4 @@
-package disjointsets
+package disjointset
 
 import (
 	"errors"
@@ -7,6 +7,17 @@ import (
 )
 
 var Lock = sync.RWMutex{}
+
+type Element struct {
+	id interface{}
+}
+
+type Set struct {
+	rank   int
+	leader *Element
+}
+
+type DisjointSet map[interface{}]*Set
 
 //NewDisjointSet to make it more golangish :)
 func NewDisjointSet() *DisjointSet {
