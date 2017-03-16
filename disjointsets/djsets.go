@@ -47,8 +47,7 @@ func (dj *DisjointSet) Union(id1, id2 interface{}) error {
 		return errors.New(fmt.Sprintf("Unable to find elements %v or %v in the set", id1, id2))
 	}
 
-	//Get rank of two sets
-	//take smaller one and make its parent point to the set with bigger rank (i.e. depth)
+	//Get rank of two sets take smaller one and make its parent point to the set with bigger rank (i.e. depth)
 	if set1.rank > set2.rank {
 		(*set2).leader = set1.leader
 	} else {

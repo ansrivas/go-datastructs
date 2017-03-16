@@ -5,8 +5,7 @@ type Element struct {
 }
 
 type Set struct {
-	rank int
-
+	rank   int
 	leader *Element
 }
 
