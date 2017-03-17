@@ -12,7 +12,7 @@ func Test_TreeInsert(t *testing.T) {
 
 	//Inorder on empty tree should fail
 	err := bst.Inorder()
-	assert.NotNil(err, "Inorder call on empty tree should be nil")
+	assert.NotNil(err, "Inorder call on empty tree should NOT be nil")
 
 	bst.Insert(4)
 	bst.Insert(2)
@@ -31,9 +31,9 @@ func Test_Diameter(t *testing.T) {
 
 	//Diameter and Height on empty tree should fail.
 	_, err := bst.Height()
-	assert.NotNil(err, "Height call on empty tree should be nil")
+	assert.NotNil(err, "Height call on empty tree should NOT be nil")
 	_, err = bst.Diameter()
-	assert.NotNil(err, "Diameter call on empty tree should be nil")
+	assert.NotNil(err, "Diameter call on empty tree should NOT be nil")
 
 	bst.Insert(1)
 	bst.Insert(2)
