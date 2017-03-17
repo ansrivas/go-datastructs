@@ -22,7 +22,7 @@ generate_cover_data() {
 
     for pkg in "$@"; do
         f="$workdir/$(echo $pkg | tr / -).cover"
-        go test -timeout=60000ms -covermode="$mode" -coverprofile="$f" "$pkg" 
+        go test -v -timeout=60000ms -covermode="$mode" -coverprofile="$f" "$pkg" 
     done
 
     echo "mode: $mode" >"$profile"
