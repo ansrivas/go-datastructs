@@ -25,4 +25,7 @@ func Test_TrieInsert(t *testing.T) {
 	assert.True(found, "Ankur was in trie")
 	found, _ = trie.Search("viv")
 	assert.False(found, "viv should not be in trie")
+
+	found, _ = trie.Search("anku")
+	assert.False(found, "anku should not be in trie")
 }
