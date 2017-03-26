@@ -1,24 +1,14 @@
 package heap
 
-import (
-	"errors"
-	"fmt"
-)
+import "fmt"
 
 type Heap []int
 
-var (
-	EmptyHeapError = errors.New("Heap is empty, please use `Initialize`.")
-)
-
-//NewBinaryHeap creates a new binary heap and returns a pointer to the heap object
-func NewBinaryHeap(numElements int) *Heap {
-	heap := make(Heap, numElements)
+//NewBinaryHeap creates a new binary heap, initializes with the given array and returns a pointer to the heap object
+func NewBinaryHeap(input []int) *Heap {
+	heap := make(Heap, len(input))
+	copy(heap, input)
 	return &heap
-}
-
-func (heap *Heap) Initialize(input []int) {
-	copy(*heap, input)
 }
 
 //GetHeapArr returns the heap object at any point in time during program execution.
