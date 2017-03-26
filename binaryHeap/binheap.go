@@ -66,3 +66,7 @@ func (heap *Heap) HeapSort() error {
 	}
 	return nil
 }
+
+func (heap *Heap) ExtractMax() int {
+	return (*heap)[0]
+}
