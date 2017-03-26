@@ -55,7 +55,6 @@ func (bit *BinIndTree) UpdateTree(index, update int) {
 			break
 		}
 	}
-
 }
 
 //GetSum returns the sum of a prefix
