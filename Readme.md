@@ -1,4 +1,4 @@
-#### Experiments with golang with graph implementations
+#### Experiments with golang with datastructures implementations
 
 #### Usage:
 
