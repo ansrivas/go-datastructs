@@ -11,6 +11,11 @@ func NewBinaryHeap(input []int) *Heap {
 	return &heap
 }
 
+//Len returns length of the heap object
+func (heap *Heap) Len() int {
+	return len(*heap)
+}
+
 //GetHeapArr returns the heap object at any point in time during program execution.
 func (heap *Heap) GetHeap() *Heap {
 	return heap
@@ -49,13 +54,13 @@ func (heap *Heap) Heapify(idx, maxLen int) {
 
 //HeapSort does a heap sort, who would say, right ? :P
 func (heap *Heap) HeapSort() error {
-	heapLen := len(*heap)
+	heapLen := heap.Len()
 
 	for i := heapLen/2 - 1; i >= 0; i-- {
-		heap.Heapify(i, len(*heap))
+		heap.Heapify(i, heapLen)
 	}
 
-	for i := len(*heap) - 1; i >= 0; i-- {
+	for i := heapLen - 1; i >= 0; i-- {
 		heap.Swap(0, i)
 		heap.Heapify(0, i)
 	}
