@@ -13,7 +13,9 @@ type ConstantDS struct {
 
 //NewConstantDS creates a new DS which returns each and every operation in constant time
 func NewConstantDS() *ConstantDS {
-	return &ConstantDS{arr: make([]int, 0), dict: make(map[int]int)}
+	return &ConstantDS{
+		arr:  make([]int, 0),
+		dict: make(map[int]int)}
 }
 
 //Insert inserts a value in our constant time DS
