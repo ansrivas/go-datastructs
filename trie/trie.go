@@ -67,3 +67,14 @@ func (trie *Trie) Search(input string) (bool, error) {
 	}
 	return current.isEndNode, nil
 }
+
+//TODO: Implement delete function
+
+// func deleteUtil(node *TrieNode)  {
+// 	if node.
+// }
+//
+// func (trie *Trie) Delete(input string) (bool, error) {
+// 	current := trie.root
+// 	deleteUtil(current, )
+// }

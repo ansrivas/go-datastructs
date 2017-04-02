@@ -102,3 +102,21 @@ func Test_LCABinaryTree3(t *testing.T) {
 	expected := 5
 	assert.Equal(expected, node.data, "Should get 5 as the LCA")
 }
+
+func Test_PathWithGivenSum(t *testing.T) {
+	assert := assert.New(t)
+	bt := NewBinaryTree()
+	root := bt.InsertRoot(10)
+	root.InsertLeft(28)
+	right := root.InsertRight(13)
+	right_left := right.InsertLeft(14)
+	right_left.InsertLeft(21)
+	right_left.InsertRight(22)
+	right_right := right.InsertRight(15)
+	right_right.InsertLeft(23)
+	right_right.InsertRight(24)
+	sum := 38
+	bt.PathWithGivenSum(sum)
+
+	assert.True(true, "msgAndArgs")
+}
