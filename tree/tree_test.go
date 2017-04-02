@@ -60,3 +60,39 @@ func Test_Diameter(t *testing.T) {
 	actual, _ = bst.Diameter()
 	assert.Equal(7, actual, "Diameter of the tree should be 4")
 }
+
+func Test_Size(t *testing.T) {
+	bst := NewBST()
+	_, err := bst.Size()
+	assert.NotNil(t, err, "Size on empty tree should return nil")
+
+	bst.Insert(4)
+	bst.Insert(2)
+	bst.Insert(8)
+	bst.Insert(19)
+	bst.Insert(1)
+
+	size, _ := bst.Size()
+	assert.Equal(t, size, 5, "size of binary tree should be 5")
+
+}
+
+// func Test_RootToLeafPath(t *testing.T) {
+// 	assert := assert.New(t)
+// 	bst := NewBST()
+//
+// 	bst.Insert(4)
+// 	bst.Insert(2)
+// 	bst.Insert(8)
+// 	bst.Insert(19)
+// 	bst.Insert(1)
+// 	bst.Insert(6)
+//
+// 	_, exists := bst.RootToLeafSum(18)
+// 	assert.True(exists, "Path containing 18 exists")
+//
+// 	if assert.True(exists, "Path containing 18 exists") {
+// 		expectedPath := []int{6, 8, 4}
+// 		assert.Equal(expectedPath, path, "Path should be accurate")
+// 	}
+// }
