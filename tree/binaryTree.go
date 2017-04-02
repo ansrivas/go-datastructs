@@ -49,17 +49,17 @@ func (node *BTNode) InsertRight(input int) *BTNode {
 	return nil
 }
 
-func (node *BTNode) IsBST(min, max int) bool {
+func (node *BTNode) IsBSTUtil(min, max int) bool {
 	if node.data <= min || node.data > max {
 		return false
 	}
 	lsubtree := true
 	rsubtree := true
 	if node.left != nil {
-		lsubtree = node.left.IsBST(min, node.data)
+		lsubtree = node.left.IsBSTUtil(min, node.data)
 	}
 	if node.right != nil {
-		rsubtree = node.right.IsBST(node.data, max)
+		rsubtree = node.right.IsBSTUtil(node.data, max)
 	}
 	return lsubtree && rsubtree
 }
@@ -67,5 +67,35 @@ func (node *BTNode) IsBST(min, max int) bool {
 //IsBST returns true/false if a given binary tree is BST.
 func (bt *BinaryTree) IsBST() bool {
 	min, max := math.MinInt16, math.MaxInt16
-	return bt.root.IsBST(min, max)
+	return bt.root.IsBSTUtil(min, max)
+}
+
+func (node *BTNode) LCAUtil(inp1, inp2 int) *BTNode {
+
+	if (node.data == inp1) || (node.data == inp2) {
+		return node
+	}
+	var ltree, rtree *BTNode
+
+	if node.left != nil {
+		ltree = node.left.LCAUtil(inp1, inp2)
+	}
+
+	if node.right != nil {
+		rtree = node.right.LCAUtil(inp1, inp2)
+	}
+
+	if rtree != nil && ltree != nil {
+		return node
+	}
+
+	if ltree != nil {
+		return ltree
+	}
+	return rtree
+}
+
+//LCA returns LCA of given two nodes
+func (bt *BinaryTree) LCA(inp1, inp2 int) *BTNode {
+	return bt.root.LCAUtil(inp1, inp2)
 }

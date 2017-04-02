@@ -30,7 +30,6 @@ func Test_BinaryTree(t *testing.T) {
 
 	bt := NewBinaryTree()
 	root := bt.InsertRoot(4)
-	root.InsertLeft(2)
 	left := root.InsertLeft(2)
 	root.InsertRight(5)
 	left.InsertLeft(3)
@@ -53,4 +52,53 @@ func Test_IsBST(t *testing.T) {
 	fmt.Println(bt.IsBST())
 
 	assert.True(bt.IsBST(), "This binary tree is a BST")
+}
+
+func Test_LCABinaryTree1(t *testing.T) {
+	assert := assert.New(t)
+	bt := NewBinaryTree()
+	root := bt.InsertRoot(4)
+	left := root.InsertLeft(6)
+	right := root.InsertRight(2)
+	right.InsertRight(9)
+	left.InsertLeft(5)
+	end := left.InsertRight(3)
+	end.InsertLeft(1)
+
+	node := bt.LCA(5, 1)
+	expected := 6
+	assert.Equal(expected, node.data, "Should get 6 as the LCA")
+}
+
+func Test_LCABinaryTree2(t *testing.T) {
+	assert := assert.New(t)
+	bt := NewBinaryTree()
+	root := bt.InsertRoot(4)
+	left := root.InsertLeft(2)
+	root.InsertRight(5)
+
+	left.InsertLeft(3)
+	left.InsertRight(8)
+
+	node := bt.LCA(5, 3)
+	expected := 4
+	assert.Equal(expected, node.data, "Should get 4 as the LCA")
+}
+
+func Test_LCABinaryTree3(t *testing.T) {
+	assert := assert.New(t)
+	bt := NewBinaryTree()
+	root := bt.InsertRoot(4)
+	left := root.InsertLeft(2)
+	right := root.InsertRight(5)
+
+	left.InsertLeft(3)
+	left.InsertRight(8)
+
+	right.InsertLeft(1)
+	right.InsertRight(6)
+
+	node := bt.LCA(6, 1)
+	expected := 5
+	assert.Equal(expected, node.data, "Should get 5 as the LCA")
 }
