@@ -166,32 +166,3 @@ func (bst *BinarySearchTree) Size() (int, error) {
 
 	return bst.root.sizeUtil(), nil
 }
-
-// func (node *Node) rootToLeafSum(path []int, sum int) ([]int, bool) {
-//
-// 	fmt.Println("node.data", node.data, sum)
-// 	if sum == 0 && node.left == nil && node.right == nil {
-// 		path := append(path, node.data)
-// 		fmt.Println("path, ", path)
-// 		return path, true
-// 	}
-// 	var rval, lval bool
-// 	if node.left != nil {
-// 		fmt.Println("Left leaf", path, sum-node.data)
-// 		path, lval = node.left.rootToLeafSum(path, sum-node.data)
-// 	}
-//
-// 	if node.right != nil {
-// 		path, rval = node.right.rootToLeafSum(path, sum-node.data)
-// 	}
-// 	fmt.Println("path and rval", path, lval && rval)
-// 	return path, lval && rval
-// }
-
-//RootToLeafSum returns path,true/false if a given sum exists in a tree
-// func (bst *BinarySearchTree) RootToLeafSum(sum int) ([]int, bool) {
-//
-// 	path := make([]int, 0)
-// 	return bst.root.rootToLeafSum(path, sum)
-//
-// }
