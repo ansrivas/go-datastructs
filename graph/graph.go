@@ -119,8 +119,8 @@ func (g *Graph) AddEdge(id1, id2 int, directed bool, weight int) error {
 	return nil
 }
 
-//ListVertices gives a list of all the vertices in this graph
-func (g *Graph) ListVertices() []*GNode {
+//GetVertices gives a list of all the vertices in this graph
+func (g *Graph) GetVertices() []*GNode {
 	nodes := make([]*GNode, 0)
 	for k := range *g {
 		vertex, ok := g.getNodeFromId(k)
@@ -132,8 +132,8 @@ func (g *Graph) ListVertices() []*GNode {
 }
 
 //TODO: Get ride of this function later
-//ListVerticesID gives a list of all the verticx-id (unique identifier of a node) in this graph
-func (g *Graph) ListVerticesID() []int {
+//GetVerticesID gives a list of all the verticx-id (unique identifier of a node) in this graph
+func (g *Graph) GetVerticesID() []int {
 	nodes := make([]int, 0)
 	for k := range *g {
 		vertex, ok := g.getNodeFromId(k)
@@ -153,10 +153,41 @@ func (g *Graph) GetNeighbors(id int) ([]*GNode, error) {
 	return node.neighbors, nil
 }
 
+//GetEdges returns the edges of a given node with identifier=id
 func (g *Graph) GetEdges(id int) ([]*Edge, error) {
 	node, ok := g.getNodeFromId(id)
 	if !ok {
 		return nil, fmt.Errorf("Node %d does not exist", id)
 	}
 	return node.edges, nil
+}
+
+//RemoveEdge removes an edge between two nodes, id1, id2.
+//If `directed=false` both the edges will be removed.
+func (g *Graph) RemoveEdge(id1, id2 int, directed bool) error {
+	if !g.Contains(id1) || !g.Contains(id2) {
+		return fmt.Errorf("Either of nodes %d or %d does not exist, please add it first", id1, id2)
+	}
+
+	node1, _ := g.getNodeFromId(id1)
+	node2, _ := g.getNodeFromId(id2)
+
+	//Removed the edge from node1.
+	for idx, ed := range node1.edges {
+		if ed.target.id == id2 {
+			(node1.edges) = append(node1.edges[0:idx], node1.edges[idx+1:]...)
+			break
+		}
+	}
+
+	if !directed {
+		for idx, ed := range node2.edges {
+			if ed.target.id == id1 {
+				(node2.edges) = append(node2.edges[0:idx], node2.edges[idx+1:]...)
+				break
+			}
+		}
+	}
+
+	return nil
 }

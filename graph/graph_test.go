@@ -29,18 +29,18 @@ func Test_Vertices(t *testing.T) {
 
 	graph := NewGraph()
 
-	assert.Equal(0, len(graph.ListVertices()), "Empty vertex list")
+	assert.Equal(0, len(graph.GetVertices()), "Empty vertex list")
 
 	graph.AddVertex(1)
 	graph.AddVertex(2)
 	graph.AddVertex(3)
 
-	vertices := graph.ListVerticesID()
+	vertices := graph.GetVerticesID()
 	sort.Ints(vertices)
 	actual := []int{1, 2, 3}
-	assert.EqualValues(vertices, actual, "ListVerticesID should get 3 node-ids")
+	assert.EqualValues(vertices, actual, "GetVerticesID should get 3 node-ids")
 
-	vertexList := graph.ListVertices()
+	vertexList := graph.GetVertices()
 
 	expected := make([]int, 0)
 	for _, node := range vertexList {
@@ -48,7 +48,7 @@ func Test_Vertices(t *testing.T) {
 	}
 	sort.Ints(expected)
 	actual = []int{1, 2, 3}
-	assert.EqualValues(expected, actual, "ListVertices should get 3 node-ids")
+	assert.EqualValues(expected, actual, "GetVertices should get 3 node-ids")
 }
 
 func Test_Edges(t *testing.T) {
@@ -96,6 +96,45 @@ func Test_Edges(t *testing.T) {
 	expected, err = graph.EdgeExists(3, 5)
 	assert.NotNil(err, "Edges should NOT exist between non existing nodes")
 	assert.Equal(expected, false, "Edges should NOT exist between non existing nodes")
+}
+
+func Test_EdgesRemoval(t *testing.T) {
+	assert := assert.New(t)
+
+	graph := NewGraph()
+
+	graph.AddVertex(1)
+	graph.AddVertex(2)
+	graph.AddVertex(3)
+	graph.AddVertex(4)
+
+	graph.AddEdge(1, 2, true, 0)
+	graph.AddEdge(1, 3, true, 0)
+	graph.AddEdge(2, 3, false, 0)
+	graph.AddEdge(3, 4, true, 0)
+
+	//Try with non-existent edges
+	graph.RemoveEdge(6, 7, false)
+
+	graph.RemoveEdge(1, 2, true)
+	edgeListOne, _ := graph.GetEdges(1)
+	actual := make([]int, 0)
+	for _, edge := range edgeListOne {
+		actual = append(actual, edge.target.id)
+	}
+	expected := []int{3}
+	assert.Equal(actual, expected, "After removing edgelist of 1 should be only 3")
+
+	//Now remove edge 3,4 to see wassup
+	graph.RemoveEdge(3, 2, false)
+	edgeListThree, _ := graph.GetEdges(3)
+	actual = make([]int, 0)
+	for _, edge := range edgeListThree {
+		actual = append(actual, edge.target.id)
+	}
+	expected = []int{4}
+	assert.Equal(actual, expected, "After removing edgelist of 3 should be only 4")
+
 }
 
 func Test_Neighbors(t *testing.T) {

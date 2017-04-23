@@ -39,7 +39,7 @@ func (g *Graph) TopologicalSort(sortInput ...bool) *GStack {
 	visited := make(map[int]bool)
 	stack := NewGStack()
 
-	vertices := g.ListVerticesID()
+	vertices := g.GetVerticesID()
 
 	//Check if we need sorted inputs for testing purposes
 	if len(sortInput) != 0 {
