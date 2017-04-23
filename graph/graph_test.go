@@ -114,7 +114,8 @@ func Test_EdgesRemoval(t *testing.T) {
 	graph.AddEdge(3, 4, true, 0)
 
 	//Try with non-existent edges
-	graph.RemoveEdge(6, 7, false)
+	shouldBeNotNil := graph.RemoveEdge(6, 7, false)
+	assert.NotNil(shouldBeNotNil, "Error should be thrown in case node is not found.")
 
 	graph.RemoveEdge(1, 2, true)
 	edgeListOne, _ := graph.GetEdges(1)
