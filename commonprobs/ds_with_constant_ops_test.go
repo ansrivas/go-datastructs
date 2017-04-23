@@ -1,4 +1,4 @@
-package commonProbs
+package commonprobs
 
 import (
 	"testing"
