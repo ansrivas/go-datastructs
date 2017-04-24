@@ -1,4 +1,4 @@
-package binIndexedTree
+package binindexedtree
 
 // Space complexity: O(n)
 // To search: 0(logn)

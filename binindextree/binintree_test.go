@@ -1,4 +1,4 @@
-package binIndexedTree
+package binindexedtree
 
 import (
 	"testing"
